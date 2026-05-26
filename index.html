@@ -500,7 +500,7 @@
 
   const ADMIN_UIDS = ["PcIXOLk7ZmY6JPR9dGWfnm4M0862"];
 
-  const fireApp = initializeApp(firebaseConfig);
+  const fireApp = initializeApp(firebaseConfig, "familiar");
   const auth = getAuth(fireApp);
   const db = getDatabase(fireApp);
   const provider = new GoogleAuthProvider();

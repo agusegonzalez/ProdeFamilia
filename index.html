@@ -196,7 +196,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { getDatabase, ref, get, set, update }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -310,10 +310,13 @@
 
   // ── AUTH ──
   document.getElementById("btn-google-login").addEventListener("click", async () => {
-    try { await signInWithPopup(auth, provider); }
-    catch (e) { if (e.code !== 'auth/popup-closed-by-user') toast("❌ Error al iniciar sesión"); }
+    try { await signInWithRedirect(auth, provider); }
+    catch (e) { toast("❌ Error al iniciar sesión"); console.error(e); }
   });
   document.getElementById("btn-logout").addEventListener("click", () => signOut(auth));
+
+  // Capturar resultado del redirect al volver de Google
+  getRedirectResult(auth).catch(e => console.error("Redirect result error:", e));
 
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -641,20 +644,29 @@
   }
 
   // ── CLASIFICACIÓN ──
+  // Grupos del Mundial 2026 según fixture oficial
+  const GRUPOS_MUNDIAL = {
+    "Grupo A": ["Mexico", "South Africa", "South Korea", "Czechia"],
+    "Grupo B": ["Canada", "USA", "Uruguay", "Panama"],
+    "Grupo C": ["Brazil", "Ecuador", "Germany", "Saudi Arabia"],
+    "Grupo D": ["Colombia", "Paraguay", "Australia", "Egypt"],
+    "Grupo E": ["France", "Senegal", "Algeria", "Norway"],
+    "Grupo F": ["Spain", "Morocco", "Ivory Coast", "Georgia"],
+    "Grupo G": ["Portugal", "Croatia", "Turkey", "Hungary"],
+    "Grupo H": ["England", "Netherlands", "Tunisia", "Sweden"],
+    "Grupo I": ["Argentina", "Chile", "Japan", "Bolivia"],
+    "Grupo J": ["Belgium", "Italy", "Austria", "Curaçao"],
+    "Grupo K": ["Iran", "Uzbekistan", "DR Congo", "New Zealand"],
+    "Grupo L": ["Switzerland", "Serbia", "Ukraine", "Qatar"]
+  };
+
   async function renderClasificacion() {
     const container = document.getElementById("view-clasificacion");
     container.innerHTML = '<div class="loading">Calculando clasificación...</div>';
     const snapP = await get(ref(db, "partidos"));
     if (!snapP.exists()) { container.innerHTML = '<div class="loading">No hay partidos cargados.</div>'; return; }
-    const partidos = snapP.val();
-
-    const grupos = {};
-    Object.entries(partidos).forEach(([key, p]) => {
-      if (!p || !p.fase || !p.equipo_A || !p.equipo_B) return;
-      if (!p.fase.toLowerCase().includes("group") && !p.fase.toLowerCase().includes("grupo")) return;
-      if (!grupos[p.fase]) grupos[p.fase] = [];
-      grupos[p.fase].push({ key, ...p });
-    });
+    const partidos = Object.values(snapP.val()).filter(p => p && p.equipo_A && p.equipo_B &&
+      p.fase && (p.fase.toLowerCase().includes("group") || p.fase.toLowerCase().includes("grupo")));
 
     container.innerHTML = "";
     const titulo = document.createElement("p");
@@ -667,10 +679,15 @@
     nota.textContent = "🟢 Los 2 primeros de cada grupo clasifican a octavos. Se actualiza con los resultados reales.";
     container.appendChild(nota);
 
-    Object.entries(grupos).sort((a, b) => a[0].localeCompare(b[0])).forEach(([fase, partidos]) => {
+    Object.entries(GRUPOS_MUNDIAL).forEach(([nombreGrupo, equiposGrupo]) => {
+      // Inicializar stats para todos los equipos del grupo
       const equipos = {};
+      equiposGrupo.forEach(eq => { equipos[eq] = { pts:0, pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 }; });
+
+      // Calcular stats con los partidos que coinciden con este grupo
       partidos.forEach(p => {
-        [p.equipo_A, p.equipo_B].forEach(eq => { if (!equipos[eq]) equipos[eq] = { pts:0, pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 }; });
+        const ambosEnGrupo = equiposGrupo.includes(p.equipo_A) && equiposGrupo.includes(p.equipo_B);
+        if (!ambosEnGrupo) return;
         if (p.estado !== "finalizado" || p.goles_A_real === undefined) return;
         const gA = Number(p.goles_A_real), gB = Number(p.goles_B_real);
         equipos[p.equipo_A].pj++; equipos[p.equipo_A].gf += gA; equipos[p.equipo_A].gc += gB;
@@ -687,7 +704,7 @@
 
       const grupoCard = document.createElement("div");
       grupoCard.className = "grupo-card";
-      grupoCard.innerHTML = `<div class="grupo-card-header">📌 ${fase}</div>`;
+      grupoCard.innerHTML = `<div class="grupo-card-header">📌 ${nombreGrupo}</div>`;
 
       const table = document.createElement("table");
       table.className = "grupo-table";

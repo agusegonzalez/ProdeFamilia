@@ -8,366 +8,95 @@
   <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --negro: #1a1028;
-      --violeta: #6c3fc5;
-      --violeta-claro: #ede7fb;
-      --amarillo: #f5c800;
-      --naranja: #ff6b35;
-      --verde: #2ec27e;
-      --verde-claro: #e4f9f0;
-      --rojo: #e84040;
-      --rojo-claro: #fdeaea;
-      --gris: #f3f1f8;
-      --gris-borde: #ddd8ee;
-      --texto: #1a1028;
-      --texto-suave: #7a6f99;
+      --negro: #1a1028; --violeta: #6c3fc5; --violeta-claro: #ede7fb;
+      --amarillo: #f5c800; --naranja: #ff6b35; --verde: #2ec27e;
+      --verde-claro: #e4f9f0; --rojo: #e84040; --rojo-claro: #fdeaea;
+      --gris: #f3f1f8; --gris-borde: #ddd8ee; --texto: #1a1028; --texto-suave: #7a6f99;
     }
+    body { font-family: 'Nunito', sans-serif; background: var(--negro); color: var(--texto); min-height: 100vh; }
 
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: var(--negro);
-      color: var(--texto);
-      min-height: 100vh;
-    }
-
-    /* ══ LOGIN ══ */
-    #view-login {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 2rem;
-    }
-    .login-card {
-      background: white;
-      border-radius: 28px;
-      padding: 3rem 2.5rem 2.5rem;
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-      border: 3px solid var(--amarillo);
-      box-shadow: 8px 8px 0px var(--amarillo);
-    }
-    .login-trofeo {
-      font-size: 4rem;
-      display: block;
-      margin-bottom: 0.5rem;
-      animation: bounce 1.2s infinite alternate;
-    }
-    @keyframes bounce {
-      from { transform: translateY(0) rotate(-5deg); }
-      to   { transform: translateY(-12px) rotate(5deg); }
-    }
-    .login-titulo {
-      font-family: 'Boogaloo', sans-serif;
-      font-size: 2.6rem;
-      color: var(--violeta);
-      line-height: 1;
-      margin-bottom: 0.2rem;
-    }
-    .login-clan {
-      font-family: 'Boogaloo', sans-serif;
-      font-size: 1.8rem;
-      color: var(--naranja);
-      margin-bottom: 0.5rem;
-    }
-    .login-sub {
-      color: var(--texto-suave);
-      font-size: 0.88rem;
-      margin-bottom: 2rem;
-      font-weight: 700;
-    }
-    .btn-google {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      width: 100%;
-      padding: 14px;
-      border: 2.5px solid var(--gris-borde);
-      border-radius: 14px;
-      background: white;
-      font-family: 'Nunito', sans-serif;
-      font-size: 1rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .btn-google:hover {
-      background: var(--violeta);
-      color: white;
-      border-color: var(--violeta);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 0 #4a2a9a;
-    }
+    #view-login { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 2rem; }
+    .login-card { background: white; border-radius: 28px; padding: 3rem 2.5rem 2.5rem; width: 100%; max-width: 380px; text-align: center; border: 3px solid var(--amarillo); box-shadow: 8px 8px 0px var(--amarillo); }
+    .login-trofeo { font-size: 4rem; display: block; margin-bottom: 0.5rem; animation: bounce 1.2s infinite alternate; }
+    @keyframes bounce { from { transform: translateY(0) rotate(-5deg); } to { transform: translateY(-12px) rotate(5deg); } }
+    .login-titulo { font-family: 'Boogaloo', sans-serif; font-size: 2.6rem; color: var(--violeta); line-height: 1; margin-bottom: 0.2rem; }
+    .login-clan { font-family: 'Boogaloo', sans-serif; font-size: 1.8rem; color: var(--naranja); margin-bottom: 0.5rem; }
+    .login-sub { color: var(--texto-suave); font-size: 0.88rem; margin-bottom: 2rem; font-weight: 700; }
+    .btn-google { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 14px; border: 2.5px solid var(--gris-borde); border-radius: 14px; background: white; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800; cursor: pointer; transition: all 0.15s; }
+    .btn-google:hover { background: var(--violeta); color: white; border-color: var(--violeta); transform: translateY(-2px); box-shadow: 0 4px 0 #4a2a9a; }
     .btn-google svg { width: 22px; height: 22px; flex-shrink: 0; }
 
-    /* ══ HEADER ══ */
-    header {
-      background: var(--violeta);
-      color: white;
-      padding: 0 1.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 62px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      border-bottom: 4px solid var(--amarillo);
-    }
-    .header-logo {
-      font-family: 'Boogaloo', sans-serif;
-      font-size: 1.45rem;
-      line-height: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .header-logo .sub {
-      font-size: 0.68rem;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      opacity: 0.75;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+    header { background: var(--violeta); color: white; padding: 0 1.2rem; display: flex; align-items: center; justify-content: space-between; height: 62px; position: sticky; top: 0; z-index: 100; border-bottom: 4px solid var(--amarillo); }
+    .header-logo { font-family: 'Boogaloo', sans-serif; font-size: 1.45rem; line-height: 1; display: flex; flex-direction: column; }
+    .header-logo .sub { font-size: 0.68rem; font-family: 'Nunito', sans-serif; font-weight: 800; opacity: 0.75; letter-spacing: 1px; text-transform: uppercase; }
     .header-right { display: flex; align-items: center; gap: 8px; }
-    .avatar {
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      background: var(--amarillo);
-      color: var(--negro);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900;
-      font-size: 0.85rem;
-      border: 2px solid white;
-    }
-    #btn-logout {
-      background: rgba(255,255,255,0.15);
-      border: 1.5px solid rgba(255,255,255,0.35);
-      color: white;
-      padding: 5px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.78rem;
-      font-family: 'Nunito', sans-serif;
-      font-weight: 800;
-      transition: background 0.2s;
-    }
-    #btn-logout:hover { background: rgba(255,255,255,0.28); }
+    .avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--amarillo); color: var(--negro); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.85rem; border: 2px solid white; }
+    #btn-logout { background: rgba(255,255,255,0.15); border: 1.5px solid rgba(255,255,255,0.35); color: white; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.78rem; font-family: 'Nunito', sans-serif; font-weight: 800; }
 
-    /* ══ TABS ══ */
-    .tabs {
-      display: flex;
-      background: #231840;
-      padding: 0 1rem;
-      gap: 4px;
-      overflow-x: auto;
-    }
-    .tab {
-      padding: 10px 16px;
-      color: rgba(255,255,255,0.5);
-      font-size: 0.85rem;
-      font-weight: 800;
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s;
-      white-space: nowrap;
-      user-select: none;
-    }
+    .tabs { display: flex; background: #231840; padding: 0 1rem; gap: 4px; overflow-x: auto; }
+    .tab { padding: 10px 16px; color: rgba(255,255,255,0.5); font-size: 0.85rem; font-weight: 800; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; user-select: none; }
     .tab.active { color: var(--amarillo); border-bottom-color: var(--amarillo); }
-    .tab:hover:not(.active) { color: rgba(255,255,255,0.8); }
 
-    /* ══ VIEWS ══ */
     .view { display: none; padding: 1.2rem; max-width: 700px; margin: 0 auto; }
     .view.active { display: block; }
-    
     #view-pronosticos { padding-bottom: 140px; }
+    .seccion-titulo { font-family: 'Boogaloo', sans-serif; font-size: 1.6rem; color: var(--amarillo); margin-bottom: 1rem; }
 
-    .seccion-titulo {
-      font-family: 'Boogaloo', sans-serif;
-      font-size: 1.6rem;
-      color: var(--amarillo);
-      margin-bottom: 1rem;
-    }
+    .frase-card { background: var(--amarillo); border-radius: 16px; padding: 14px 18px; margin-bottom: 1rem; font-family: 'Boogaloo', sans-serif; font-size: 1.1rem; color: #5a4000; text-align: center; border: 2.5px solid #d4a800; animation: wiggle 3s infinite; }
+    @keyframes wiggle { 0%,100% { transform: rotate(-0.5deg); } 50% { transform: rotate(0.5deg); } }
+    .fase-label { display: inline-block; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; background: var(--violeta); color: white; padding: 4px 12px; border-radius: 20px; margin: 1.2rem 0 0.6rem; }
 
-    /* ══ FRASE ══ */
-    .frase-card {
-      background: var(--amarillo);
-      border-radius: 16px;
-      padding: 14px 18px;
-      margin-bottom: 1rem;
-      font-family: 'Boogaloo', sans-serif;
-      font-size: 1.1rem;
-      color: #5a4000;
-      text-align: center;
-      border: 2.5px solid #d4a800;
-      animation: wiggle 3s infinite;
-    }
-    @keyframes wiggle {
-      0%,100% { transform: rotate(-0.5deg); }
-      50% { transform: rotate(0.5deg); }
-    }
-
-    /* ══ FASE LABEL ══ */
-    .fase-label {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      background: var(--violeta);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin: 1.2rem 0 0.6rem;
-    }
-
-    /* ══ TARJETA PARTIDO ══ */
-    .partido-card {
-      background: white;
-      border-radius: 20px;
-      border: 2.5px solid var(--gris-borde);
-      margin-bottom: 12px;
-      overflow: hidden;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
+    .partido-card { background: white; border-radius: 20px; border: 2.5px solid var(--gris-borde); margin-bottom: 12px; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s; }
     .partido-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,63,197,0.15); }
     .partido-card.finalizado { border-color: var(--verde); }
-    .partido-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 14px 12px;
-      gap: 6px;
-      position: relative;
-    }
-    .equipo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-      min-width: 0;
-    }
-    .equipo-bandera-img {
-      width: 44px;
-      height: 30px;
-      object-fit: cover;
-      border-radius: 6px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
-      border: 1px solid var(--gris-borde);
-    }
-    .equipo-nombre {
-      font-size: 0.75rem;
-      font-weight: 800;
-      text-align: center;
-      margin-top: 5px;
-      color: var(--texto);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 90px;
-    }
-    .vs-area {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      flex-shrink: 0;
-      padding: 0 6px;
-    }
+    .partido-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 14px 12px; gap: 6px; position: relative; }
+    .equipo { display: flex; flex-direction: column; align-items: center; flex: 1; min-width: 0; }
+    .equipo-bandera-img { width: 44px; height: 30px; object-fit: cover; border-radius: 6px; border: 1px solid var(--gris-borde); }
+    .equipo-nombre { font-size: 0.75rem; font-weight: 800; text-align: center; margin-top: 5px; color: var(--texto); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 90px; }
+    .vs-area { display: flex; flex-direction: column; align-items: center; gap: 3px; flex-shrink: 0; padding: 0 6px; }
     .vs-texto { font-family: 'Boogaloo', sans-serif; font-size: 1.3rem; color: var(--texto-suave); }
     .partido-fecha { font-size: 0.68rem; color: var(--texto-suave); font-weight: 700; text-align: center; }
-    .resultado-real {
-      font-family: 'Boogaloo', sans-serif;
-      font-size: 2rem;
-      color: var(--violeta);
-      letter-spacing: 2px;
-      line-height: 1;
-    }
+    .resultado-real { font-family: 'Boogaloo', sans-serif; font-size: 2rem; color: var(--violeta); letter-spacing: 2px; line-height: 1; }
     .mi-pron { font-size: 0.68rem; font-weight: 800; color: var(--texto-suave); text-align: center; margin-top: 2px; }
 
-    /* ══ BADGE PUNTOS ══ */
-    .badge-pts {
-      position: absolute;
-      top: 8px; right: 10px;
-      font-size: 0.72rem;
-      font-weight: 900;
-      padding: 3px 9px;
-      border-radius: 20px;
-    }
+    .badge-pts { position: absolute; top: 8px; right: 10px; font-size: 0.72rem; font-weight: 900; padding: 3px 9px; border-radius: 20px; }
     .pts-3 { background: var(--amarillo); color: #7a5800; }
     .pts-1 { background: var(--verde-claro); color: #1a7a50; }
     .pts-0 { background: var(--rojo-claro); color: var(--rojo); }
 
-    /* ══ PRONÓSTICO AREA ══ */
-    .pronostico-area {
-      background: var(--gris);
-      border-top: 2px dashed var(--gris-borde);
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+    .pronostico-area { background: var(--gris); border-top: 2px dashed var(--gris-borde); padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
     .pronostico-label { font-size: 0.75rem; color: var(--texto-suave); font-weight: 800; white-space: nowrap; }
     .score-inputs { display: flex; align-items: center; gap: 6px; flex: 1; }
-    .score-input {
-      width: 46px; height: 40px;
-      border: 2.5px solid var(--gris-borde);
-      border-radius: 10px;
-      text-align: center;
-      font-size: 1.15rem;
-      font-weight: 900;
-      font-family: 'Nunito', sans-serif;
-      background: white;
-      outline: none;
-      transition: border-color 0.2s, transform 0.1s;
-      -moz-appearance: textfield;
-      appearance: textfield;
-      color: var(--violeta);
-    }
-    .score-input::-webkit-outer-spin-button,
-    .score-input::-webkit-inner-spin-button { -webkit-appearance: none; appearance: none; margin: 0; }
-    .score-input:focus { border-color: var(--violeta); transform: scale(1.05); }
+    .score-input { width: 46px; height: 40px; border: 2.5px solid var(--gris-borde); border-radius: 10px; text-align: center; font-size: 1.15rem; font-weight: 900; font-family: 'Nunito', sans-serif; background: white; outline: none; transition: border-color 0.2s; -moz-appearance: textfield; appearance: textfield; color: var(--violeta); }
+    .score-input::-webkit-outer-spin-button, .score-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .score-input:focus { border-color: var(--violeta); }
     .score-sep { font-family: 'Boogaloo', sans-serif; font-size: 1.3rem; color: var(--texto-suave); }
-    .btn-guardar {
-      padding: 9px 14px;
-      background: var(--violeta);
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 800;
-      cursor: pointer;
-      transition: all 0.15s;
-      white-space: nowrap;
-      box-shadow: 0 3px 0 #4a2a9a;
-    }
-    .btn-guardar:hover { background: #5a32a8; transform: translateY(-1px); }
-    .btn-guardar:active { transform: translateY(2px); box-shadow: none; }
-    .btn-guardar:disabled { background: #ccc; box-shadow: none; cursor: default; transform: none; }
+    .btn-guardar { padding: 9px 14px; background: var(--violeta); color: white; border: none; border-radius: 10px; font-family: 'Nunito', sans-serif; font-size: 0.82rem; font-weight: 800; cursor: pointer; transition: all 0.15s; white-space: nowrap; box-shadow: 0 3px 0 #4a2a9a; }
+    .btn-guardar:hover { background: #5a32a8; }
+    .btn-guardar:disabled { background: #ccc; box-shadow: none; cursor: default; }
 
-    /* ══ POSICIONES ══ */
+    /* PRONÓSTICOS DE TODOS */
+    .todos-pronos { background: #f8f5ff; border-top: 2px dashed var(--gris-borde); padding: 10px 14px; }
+    .todos-pronos-titulo { font-size: 0.7rem; font-weight: 900; color: var(--violeta); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .pronos-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+    .prono-chip { display: flex; align-items: center; gap: 5px; background: white; border: 1.5px solid var(--gris-borde); border-radius: 20px; padding: 4px 10px; font-size: 0.75rem; font-weight: 800; }
+    .prono-chip.exacto { border-color: var(--amarillo); background: #fffbe6; color: #7a5800; }
+    .prono-chip.ganador { border-color: var(--verde); background: var(--verde-claro); color: #0f7a4a; }
+    .prono-chip.fallido { border-color: #fca5a5; background: var(--rojo-claro); color: var(--rojo); }
+    .prono-chip.pendiente { border-color: var(--gris-borde); color: var(--texto-suave); }
+    .prono-score { font-family: 'Boogaloo', sans-serif; font-size: 0.95rem; }
+
+    /* TABLA POSICIONES */
     .tabla-pos { background: white; border-radius: 20px; border: 2.5px solid var(--gris-borde); overflow: hidden; }
     .tabla-pos table { width: 100%; border-collapse: collapse; }
     .tabla-pos thead { background: var(--violeta); }
-    .tabla-pos th {
-      font-size: 0.72rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
-      color: rgba(255,255,255,0.85); padding: 11px 12px; text-align: left;
-    }
+    .tabla-pos th { font-size: 0.72rem; font-weight: 900; text-transform: uppercase; color: rgba(255,255,255,0.85); padding: 11px 12px; text-align: left; }
     .tabla-pos th:not(:first-child) { text-align: center; }
     .tabla-pos td { padding: 12px; font-size: 0.9rem; font-weight: 700; border-bottom: 1.5px solid var(--gris-borde); }
     .tabla-pos tr:last-child td { border-bottom: none; }
     .tabla-pos td:not(:first-child) { text-align: center; }
-    .pos-num {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 26px; height: 26px; border-radius: 8px;
-      font-size: 0.82rem; font-weight: 900; margin-right: 8px;
-    }
+    .pos-num { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 8px; font-size: 0.82rem; font-weight: 900; margin-right: 8px; }
     .pos-1 { background: var(--amarillo); color: #7a5800; font-size: 1rem; }
     .pos-2 { background: #e8e8ee; color: #555; }
     .pos-3 { background: #fde8d3; color: #8a4010; }
@@ -376,45 +105,42 @@
     .yo-row { background: var(--violeta-claro); }
     .yo-row .pts-total { color: var(--naranja); }
 
-    /* ══ ADMIN ══ */
+    /* BOTONES EXPORTAR */
+    .export-btns { display: flex; gap: 10px; margin-bottom: 1rem; flex-wrap: wrap; }
+    .btn-export { flex: 1; min-width: 140px; padding: 12px 16px; border: none; border-radius: 14px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 900; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.15s; }
+    .btn-export-img { background: var(--violeta); color: white; box-shadow: 0 4px 0 #4a2a9a; }
+    .btn-export-img:hover { background: #5a32a8; transform: translateY(-1px); }
+    .btn-export-wsp { background: #25d366; color: white; box-shadow: 0 4px 0 #128c3f; }
+    .btn-export-wsp:hover { background: #1db954; transform: translateY(-1px); }
+
+    /* CLASIFICACIÓN */
+    .grupo-card { background: white; border-radius: 20px; border: 2.5px solid var(--gris-borde); margin-bottom: 16px; overflow: hidden; }
+    .grupo-card-header { background: var(--violeta); color: white; padding: 12px 16px; font-family: 'Boogaloo', sans-serif; font-size: 1.2rem; }
+    .grupo-table { width: 100%; border-collapse: collapse; }
+    .grupo-table th { font-size: 0.68rem; font-weight: 900; text-transform: uppercase; color: var(--texto-suave); padding: 8px 10px; text-align: center; background: var(--gris); border-bottom: 1.5px solid var(--gris-borde); }
+    .grupo-table th:first-child { text-align: left; }
+    .grupo-table td { padding: 10px; font-size: 0.82rem; font-weight: 700; border-bottom: 1px solid var(--gris-borde); text-align: center; color: var(--texto); }
+    .grupo-table td:first-child { text-align: left; display: flex; align-items: center; gap: 8px; padding-left: 12px; }
+    .grupo-table tr:last-child td { border-bottom: none; }
+    .clasifica { background: rgba(46,194,126,0.08); }
+    .clasifica td:first-child { border-left: 4px solid var(--verde); }
+    .no-clasifica td:first-child { border-left: 4px solid transparent; }
+    .eq-flag { width: 28px; height: 19px; object-fit: cover; border-radius: 3px; border: 1px solid var(--gris-borde); flex-shrink: 0; }
+    .clasif-badge { font-size: 0.65rem; font-weight: 900; padding: 2px 7px; border-radius: 10px; background: var(--verde-claro); color: #0f7a4a; }
+
+    /* ADMIN */
     .admin-card { background: white; border-radius: 18px; border: 2.5px solid var(--gris-borde); margin-bottom: 10px; overflow: hidden; }
     .admin-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; gap: 8px; }
     .admin-titulo { font-size: 0.88rem; font-weight: 800; color: var(--texto); display: flex; align-items: center; gap: 8px; }
-    .admin-body {
-      padding: 10px 16px; border-top: 2px dashed var(--gris-borde);
-      display: flex; align-items: center; gap: 8px; background: var(--gris); flex-wrap: wrap;
-    }
-    .admin-body label { font-size: 0.8rem; color: var(--texto-suave); font-weight: 700; }
-    .btn-calcular {
-      margin-top: 1rem; width: 100%; padding: 14px;
-      background: var(--naranja); color: white; border: none; border-radius: 14px;
-      font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 900;
-      cursor: pointer; transition: all 0.15s; box-shadow: 0 4px 0 #c04410;
-    }
-    .btn-calcular:hover { background: #e55a20; transform: translateY(-1px); }
-    .btn-calcular:active { transform: translateY(3px); box-shadow: none; }
+    .admin-body { padding: 10px 16px; border-top: 2px dashed var(--gris-borde); display: flex; align-items: center; gap: 8px; background: var(--gris); flex-wrap: wrap; }
+    .btn-calcular { margin-top: 1rem; width: 100%; padding: 14px; background: var(--naranja); color: white; border: none; border-radius: 14px; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 900; cursor: pointer; box-shadow: 0 4px 0 #c04410; transition: all 0.15s; }
     .badge-estado { font-size: 0.7rem; font-weight: 800; padding: 3px 10px; border-radius: 20px; }
     .estado-pendiente { background: var(--gris); color: var(--texto-suave); }
-    .estado-en_juego { background: #dbeafe; color: #1e40af; }
     .estado-finalizado { background: var(--verde-claro); color: #0f7a4a; }
 
-    /* ══ LOADING ══ */
     .loading { text-align: center; padding: 3rem; color: rgba(255,255,255,0.45); font-size: 0.95rem; font-weight: 700; }
-
-    /* ══ LEYENDA ══ */
     .leyenda { margin-top: 1rem; font-size: 0.78rem; color: rgba(255,255,255,0.45); font-weight: 700; text-align: center; }
-
-    /* ══ TOAST ══ */
-    .toast {
-      position: fixed; bottom: 28px; left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: var(--negro); color: white;
-      padding: 12px 22px; border-radius: 30px;
-      font-size: 0.9rem; font-weight: 800;
-      transition: transform 0.3s cubic-bezier(.34,1.56,.64,1);
-      z-index: 999; white-space: nowrap;
-      border: 2px solid var(--amarillo);
-    }
+    .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--negro); color: white; padding: 12px 22px; border-radius: 30px; font-size: 0.9rem; font-weight: 800; transition: transform 0.3s cubic-bezier(.34,1.56,.64,1); z-index: 9999; white-space: nowrap; border: 2px solid var(--amarillo); }
     .toast.visible { transform: translateX(-50%) translateY(0); }
 
     @media (max-width: 480px) {
@@ -441,40 +167,27 @@
 
 <div id="app" style="display:none;">
   <header>
-    <div class="header-logo">
-      🏆 Clan Waltner
-      <span class="sub">Prode Mundial 2026</span>
-    </div>
+    <div class="header-logo">🏆 Clan Waltner<span class="sub">Prode Mundial 2026</span></div>
     <div class="header-right">
       <div class="avatar" id="user-avatar">?</div>
       <button id="btn-logout">Salir</button>
     </div>
   </header>
-
   <div class="tabs">
     <div class="tab active" data-tab="pronosticos">⚽ Pronósticos</div>
     <div class="tab" data-tab="posiciones">🏆 Posiciones</div>
+    <div class="tab" data-tab="clasificacion">📊 Clasificación</div>
     <div class="tab" data-tab="admin" id="tab-admin" style="display:none;">⚙️ Admin</div>
   </div>
-
-  <div id="view-pronosticos" class="view active">
-    <div class="loading">Cargando partidos...</div>
-  </div>
-
-  <div id="view-posiciones" class="view">
-    <div class="loading">Calculando el ranking...</div>
-  </div>
-
+  <div id="view-pronosticos" class="view active"><div class="loading">Cargando partidos...</div></div>
+  <div id="view-posiciones" class="view"><div class="loading">Calculando el ranking...</div></div>
+  <div id="view-clasificacion" class="view"><div class="loading">Calculando clasificación...</div></div>
   <div id="view-admin" class="view">
     <p class="seccion-titulo">⚙️ Cargar Resultados</p>
     <div id="admin-partidos-list"><div class="loading">Cargando...</div></div>
     <button class="btn-calcular" id="btn-recalcular">🔄 Actualizar todo</button>
-    <button class="btn-calcular" id="btn-whatsapp" style="background: #2ec27e; box-shadow: 0 4px 0 #1a7a50; margin-top: 0.5rem;">
-      💬 Escupir Tabla en WhatsApp
-    </button>
   </div>
-
-  <button id="btn-guardar-todo" style="position: fixed; bottom: 25px; right: 20px; z-index: 999; width: auto; padding: 14px 24px; border-radius: 50px; font-weight: 900; font-size: 1rem; background: var(--naranja); color: white; border: none; box-shadow: 0 6px 20px rgba(0,0,0,0.4), 0 4px 0 #c04410; cursor: pointer; display: block; font-family: 'Nunito', sans-serif; transition: transform 0.1s;">
+  <button id="btn-guardar-todo" style="position:fixed;bottom:25px;right:20px;z-index:999;padding:14px 24px;border-radius:50px;font-weight:900;font-size:1rem;background:var(--naranja);color:white;border:none;box-shadow:0 6px 20px rgba(0,0,0,0.4),0 4px 0 #c04410;cursor:pointer;font-family:'Nunito',sans-serif;">
     🚀 Guardar Todo
   </button>
 </div>
@@ -499,6 +212,7 @@
   };
 
   const ADMIN_UIDS = ["PcIXOLk7ZmY6JPR9dGWfnm4M0862"];
+  const FECHA_LIMITE = new Date(2026, 5, 11, 0, 0, 0); // 11 junio 2026
 
   const fireApp = initializeApp(firebaseConfig, "familiar");
   const auth = getAuth(fireApp);
@@ -508,121 +222,76 @@
   let currentUser = null;
   let partidosCache = {};
   let pronosticosCache = {};
+  let todosPronosticosCache = {};
+  let usuariosCache = {};
 
   const frases = [
-    "🔮 El que la ve antes, gana.",
-    "🧠 No es suerte, es análisis familiar.",
-    "🎯 Resultado exacto = 3 puntos de gloria eterna.",
-    "🦅 Solo uno puede ser el Waltner supremo.",
-    "🧉 Tomando mate se piensa mejor. Comprobado.",
-    "💡 El VAR no aplica en este prode.",
-    "🔥 ¿Cuántos puntos necesitás para salvarte?",
-    "😤 No hay excusas. There are pronósticos.",
-    "🌟 Acertar el resultado exacto es un arte.",
+    "🔮 El que la ve antes, gana.", "🧠 No es suerte, es análisis familiar.",
+    "🎯 Resultado exacto = 3 puntos de gloria eterna.", "🦅 Solo uno puede ser el Waltner supremo.",
+    "🧉 Tomando mate se piensa mejor. Comprobado.", "💡 El VAR no aplica en este prode.",
+    "😤 No hay excusas. There are pronósticos.", "🌟 Acertar el resultado exacto es un arte.",
   ];
 
   const mapaEquipos = {
-    "Mexico": { es: "México", flag: "mx" },
-    "South Africa": { es: "Sudáfrica", flag: "za" },
-    "South Korea": { es: "Corea del Sur", flag: "kr" },
-    "Czechia": { es: "Rep. Checa", flag: "cz" },
-    "Czech Republic": { es: "Rep. Checa", flag: "cz" },
-    "Canada": { es: "Canadá", flag: "ca" },
-    "Bosnia and Herzegovina": { es: "Bosnia", flag: "ba" },
-    "Bosnia-Herzegovina": { es: "Bosnia", flag: "ba" },
-    "Qatar": { es: "Catar", flag: "qa" },
-    "Switzerland": { es: "Suiza", flag: "ch" },
-    "Brazil": { es: "Brasil", flag: "br" },
-    "Morocco": { es: "Marruecos", flag: "ma" },
-    "Haiti": { es: "Haití", flag: "ht" },
-    "Scotland": { es: "Escocia", flag: "gb-sct" },
-    "USA": { es: "Estados Unidos", flag: "us" },
-    "United States": { es: "Estados Unidos", flag: "us" },
-    "Paraguay": { es: "Paraguay", flag: "py" },
-    "Australia": { es: "Australia", flag: "au" },
-    "Turkey": { es: "Turquía", flag: "tr" },
-    "Germany": { es: "Alemania", flag: "de" },
-    "Curaçao": { es: "Curazao", flag: "cw" },
-    "Curacao": { es: "Curazao", flag: "cw" },
-    "Ivory Coast": { es: "Costa de Marfil", flag: "ci" },
-    "Ecuador": { es: "Ecuador", flag: "ec" },
-    "Netherlands": { es: "Países Bajos", flag: "nl" },
-    "Japan": { es: "Japón", flag: "jp" },
-    "Sweden": { es: "Suecia", flag: "se" },
-    "Tunisia": { es: "Túnez", flag: "tn" },
-    "Belgium": { es: "Bélgica", flag: "be" },
-    "Egypt": { es: "Egipto", flag: "eg" },
-    "Iran": { es: "Irán", flag: "ir" },
-    "New Zealand": { es: "Nueva Zelanda", flag: "nz" },
-    "Spain": { es: "España", flag: "es" },
-    "Cape Verde": { es: "Cabo Verde", flag: "cv" },
-    "Cape Verde Islands": { es: "Cabo Verde", flag: "cv" },
-    "Saudi Arabia": { es: "Arabia Saudita", flag: "sa" },
-    "Uruguay": { es: "Uruguay", flag: "uy" },
-    "France": { es: "Francia", flag: "fr" },
-    "Senegal": { es: "Senegal", flag: "sn" },
-    "Iraq": { es: "Irak", flag: "iq" },
-    "Norway": { es: "Noruega", flag: "no" },
-    "Argentina": { es: "Argentina", flag: "ar" },
-    "Algeria": { es: "Argelia", flag: "dz" },
-    "Austria": { es: "Austria", flag: "at" },
-    "Jordan": { es: "Jordania", flag: "jo" },
-    "Portugal": { es: "Portugal", flag: "pt" },
-    "DR Congo": { es: "RD Congo", flag: "cd" },
-    "Congo DR": { es: "RD Congo", flag: "cd" },
-    "Uzbekistan": { es: "Uzbekistán", flag: "uz" },
-    "Colombia": { es: "Colombia", flag: "co" },
-    "England": { es: "Inglaterra", flag: "gb-eng" },
-    "Croatia": { es: "Croacia", flag: "hr" },
-    "Ghana": { es: "Ghana", flag: "gh" },
-    "Panama": { es: "Panamá", flag: "pa" }
+    "Mexico":{ es:"México", flag:"mx" }, "South Africa":{ es:"Sudáfrica", flag:"za" },
+    "South Korea":{ es:"Corea del Sur", flag:"kr" }, "Czechia":{ es:"Rep. Checa", flag:"cz" },
+    "Czech Republic":{ es:"Rep. Checa", flag:"cz" }, "Canada":{ es:"Canadá", flag:"ca" },
+    "Bosnia and Herzegovina":{ es:"Bosnia", flag:"ba" }, "Bosnia-Herzegovina":{ es:"Bosnia", flag:"ba" },
+    "Qatar":{ es:"Catar", flag:"qa" }, "Switzerland":{ es:"Suiza", flag:"ch" },
+    "Brazil":{ es:"Brasil", flag:"br" }, "Morocco":{ es:"Marruecos", flag:"ma" },
+    "Haiti":{ es:"Haití", flag:"ht" }, "Scotland":{ es:"Escocia", flag:"gb-sct" },
+    "USA":{ es:"Estados Unidos", flag:"us" }, "United States":{ es:"Estados Unidos", flag:"us" },
+    "Paraguay":{ es:"Paraguay", flag:"py" }, "Australia":{ es:"Australia", flag:"au" },
+    "Turkey":{ es:"Turquía", flag:"tr" }, "Germany":{ es:"Alemania", flag:"de" },
+    "Curaçao":{ es:"Curazao", flag:"cw" }, "Curacao":{ es:"Curazao", flag:"cw" },
+    "Ivory Coast":{ es:"Costa de Marfil", flag:"ci" }, "Ecuador":{ es:"Ecuador", flag:"ec" },
+    "Netherlands":{ es:"Países Bajos", flag:"nl" }, "Japan":{ es:"Japón", flag:"jp" },
+    "Sweden":{ es:"Suecia", flag:"se" }, "Tunisia":{ es:"Túnez", flag:"tn" },
+    "Belgium":{ es:"Bélgica", flag:"be" }, "Egypt":{ es:"Egipto", flag:"eg" },
+    "Iran":{ es:"Irán", flag:"ir" }, "New Zealand":{ es:"Nueva Zelanda", flag:"nz" },
+    "Spain":{ es:"España", flag:"es" }, "Cape Verde":{ es:"Cabo Verde", flag:"cv" },
+    "Cape Verde Islands":{ es:"Cabo Verde", flag:"cv" }, "Saudi Arabia":{ es:"Arabia Saudita", flag:"sa" },
+    "Uruguay":{ es:"Uruguay", flag:"uy" }, "France":{ es:"Francia", flag:"fr" },
+    "Senegal":{ es:"Senegal", flag:"sn" }, "Iraq":{ es:"Irak", flag:"iq" },
+    "Norway":{ es:"Noruega", flag:"no" }, "Argentina":{ es:"Argentina", flag:"ar" },
+    "Algeria":{ es:"Argelia", flag:"dz" }, "Austria":{ es:"Austria", flag:"at" },
+    "Jordan":{ es:"Jordania", flag:"jo" }, "Portugal":{ es:"Portugal", flag:"pt" },
+    "DR Congo":{ es:"RD Congo", flag:"cd" }, "Congo DR":{ es:"RD Congo", flag:"cd" },
+    "Uzbekistan":{ es:"Uzbekistán", flag:"uz" }, "Colombia":{ es:"Colombia", flag:"co" },
+    "England":{ es:"Inglaterra", flag:"gb-eng" }, "Croatia":{ es:"Croacia", flag:"hr" },
+    "Ghana":{ es:"Ghana", flag:"gh" }, "Panama":{ es:"Panamá", flag:"pa" }
   };
 
-  function obtenerInfoEquipo(nombreIngles) {
-    if (!nombreIngles || nombreIngles === "Por definir" || nombreIngles.includes("definir")) {
-      return { nombre: "Por definir", banderaHtml: `<span style="font-size: 1.6rem; line-height:1;">🏳️</span>` };
-    }
-    const datos = mapaEquipos[nombreIngles];
-    if (datos) {
-      return {
-        nombre: datos.es,
-        banderaHtml: `<img src="https://flagcdn.com/w80/${datos.flag}.png" class="equipo-bandera-img" alt="${datos.es}">`
-      };
-    }
-    return { nombre: nombreIngles, banderaHtml: `<span style="font-size: 1.6rem; line-height:1;">⚽</span>` };
+  function obtenerInfoEquipo(n) {
+    if (!n || n.includes("definir")) return { nombre:"Por definir", banderaHtml:`<span style="font-size:1.6rem">🏳️</span>` };
+    const d = mapaEquipos[n];
+    if (d) return { nombre:d.es, banderaHtml:`<img src="https://flagcdn.com/w80/${d.flag}.png" class="equipo-bandera-img" alt="${d.es}">` };
+    return { nombre:n, banderaHtml:`<span style="font-size:1.6rem">⚽</span>` };
   }
 
-  // 🔒 Función blindada para Safari (Usa enteros nativos para evitar fallos de parseo)
-  function esFechaLimiteExcedida() {
-    // Año, Mes (0-indexed: 5 es Junio), Día, Hora, Minutos, Segundos
-    const fechaLimite = new Date(2026, 5, 11, 0, 0, 0);
-    return Date.now() >= fechaLimite;
-  }
+  const esCongelare = () => Date.now() >= FECHA_LIMITE;
 
   function obtenerRangoBizarro(pts, pos, total) {
     if (pos === 1) return "👑 Dios Waltner del Fulbo";
     if (pos === 2) return "🥈 Segundón Cebollita";
-    if (pos === total && total > 1) return "🤡 Paga el Asado (Burro)";
-    if (pts === 0) return "🥶 Pecho Frío Criogénico";
-    if (pts < 4) return "🪵 Tronco / Juegue al Ajedrez";
+    if (pos === total && total > 1) return "🤡 Paga el Asado";
+    if (pts === 0) return "🥶 Pecho Frío";
+    if (pts < 4) return "🪵 Tronco";
     return "🧉 Viejito Táctico";
   }
 
-  function toast(msg, dur = 2800) {
+  function toast(msg) {
     const t = document.getElementById("toast");
-    t.textContent = msg;
-    t.classList.add("visible");
-    setTimeout(() => t.classList.remove("visible"), dur);
+    t.textContent = msg; t.classList.add("visible");
+    setTimeout(() => t.classList.remove("visible"), 2800);
   }
 
-  // 🛠️ Formateador inmune a Safari (Limpia espacios espurios antes de parsear)
   function formatFecha(iso) {
     if (!iso) return "A confirmar";
-    const cadenaLimpia = String(iso).replace(/ /g, "T");
-    const d = new Date(cadenaLimpia);
+    const d = new Date(String(iso).replace(/ /g, "T"));
     if (isNaN(d.getTime())) return "Fecha a confirmar";
-    return d.toLocaleDateString("es-AR", { weekday: "short", day: "numeric", month: "short" })
-      + " · " + d.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleDateString("es-AR", { weekday:"short", day:"numeric", month:"short" }) + " · " +
+      d.toLocaleTimeString("es-AR", { hour:"2-digit", minute:"2-digit" });
   }
 
   function calcularPuntos(pron, real) {
@@ -635,10 +304,14 @@
     return 0;
   }
 
-  // 🔙 Volvemos al Popup nativo para resguardar la sesión en móviles
+  function nombreUsuario(u) {
+    return u?.perfil?.nombre || u?.nombre || u?.email || "Jugador";
+  }
+
+  // ── AUTH ──
   document.getElementById("btn-google-login").addEventListener("click", async () => {
     try { await signInWithPopup(auth, provider); }
-    catch (e) { console.error(e); toast("❌ Error al iniciar sesión"); }
+    catch (e) { if (e.code !== 'auth/popup-closed-by-user') toast("❌ Error al iniciar sesión"); }
   });
   document.getElementById("btn-logout").addEventListener("click", () => signOut(auth));
 
@@ -647,19 +320,14 @@
       currentUser = user;
       document.getElementById("view-login").style.display = "none";
       document.getElementById("app").style.display = "block";
-      const initials = (user.displayName || user.email || "?")
-        .split(" ").map(n => n[0]).join("").slice(0, 2).toUpperCase();
+      const initials = (user.displayName || user.email || "?").split(" ").map(n => n[0]).join("").slice(0,2).toUpperCase();
       document.getElementById("user-avatar").textContent = initials;
-
       await update(ref(db, `usuarios/${user.uid}`), {
-          nombre: user.displayName || user.email,
-          email: user.email,
-          foto: user.photoURL || ""
-      }); 
-
-      if (ADMIN_UIDS.includes(user.uid)) {
-        document.getElementById("tab-admin").style.display = "";
-      }
+        nombre: user.displayName || user.email,
+        email: user.email,
+        foto: user.photoURL || ""
+      });
+      if (ADMIN_UIDS.includes(user.uid)) document.getElementById("tab-admin").style.display = "";
       cargarTodo();
     } else {
       currentUser = null;
@@ -668,62 +336,65 @@
     }
   });
 
+  // ── TABS ──
   document.querySelectorAll(".tab").forEach(tab => {
     tab.addEventListener("click", () => {
       document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
       document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
       tab.classList.add("active");
       document.getElementById("view-" + tab.dataset.tab).classList.add("active");
-      
-      const btnTodo = document.getElementById("btn-guardar-todo");
-      if (tab.dataset.tab === "pronosticos") {
-        btnTodo.style.display = "block";
-      } else {
-        btnTodo.style.display = "none";
-      }
-
+      document.getElementById("btn-guardar-todo").style.display = tab.dataset.tab === "pronosticos" ? "block" : "none";
       if (tab.dataset.tab === "posiciones") renderPosiciones();
+      if (tab.dataset.tab === "clasificacion") renderClasificacion();
       if (tab.dataset.tab === "admin") renderAdmin();
     });
   });
 
+  // ── CARGA CENTRAL ──
   async function cargarTodo() {
-    const [snapP, snapPr] = await Promise.all([
+    const congelado = esCongelare();
+    const queries = [
       get(ref(db, "partidos")),
-      get(ref(db, `pronosticos/${currentUser.uid}`))
-    ]);
-    partidosCache = snapP.exists() ? snapP.val() : {};
-    pronosticosCache = snapPr.exists() ? snapPr.val() : {};
+      get(ref(db, `pronosticos/${currentUser.uid}`)),
+    ];
+    if (congelado) {
+      queries.push(get(ref(db, "pronosticos")));
+      queries.push(get(ref(db, "usuarios")));
+    }
+    const results = await Promise.all(queries);
+    partidosCache = results[0].exists() ? results[0].val() : {};
+    pronosticosCache = results[1].exists() ? results[1].val() : {};
+    if (congelado) {
+      todosPronosticosCache = results[2].exists() ? results[2].val() : {};
+      usuariosCache = results[3].exists() ? results[3].val() : {};
+    }
     renderPronosticos();
   }
 
+  // ── PRONÓSTICOS ──
   function renderPronosticos() {
     const container = document.getElementById("view-pronosticos");
     container.innerHTML = "";
-
     const fraseEl = document.createElement("div");
     fraseEl.className = "frase-card";
-    // 🐛 CORREGIDO: Se eliminó la línea duplicada con el error de tipeo
     fraseEl.textContent = frases[Math.floor(Math.random() * frases.length)];
     container.appendChild(fraseEl);
 
-    // 🚀 Sort blindado para motores Safari (iOS)
-    const partidos = Object.entries(partidosCache)
-      .sort((a, b) => {
-        const dateA = new Date(String(a[1].fecha).replace(/ /g, "T"));
-        const dateB = new Date(String(b[1].fecha).replace(/ /g, "T"));
-        return dateA - dateB;
-      });
+    const congelado = esCongelare();
 
-    if (!partidos.length) {
-      const el = document.createElement("div");
-      el.className = "loading";
-      el.textContent = "No hay partidos cargados aún.";
-      container.appendChild(el);
-      return;
+    if (congelado) {
+      const aviso = document.createElement("div");
+      aviso.style.cssText = "background:rgba(108,63,197,0.15);border:1.5px solid var(--violeta);border-radius:12px;padding:10px 14px;margin-bottom:12px;font-size:0.82rem;font-weight:800;color:#c4a8ff;text-align:center;";
+      aviso.textContent = "🔒 El prode cerró el 10 de junio. Se muestran los pronósticos de todos.";
+      container.appendChild(aviso);
     }
 
-    const limiteBloqueo = esFechaLimiteExcedida();
+    const partidos = Object.entries(partidosCache).sort((a, b) =>
+      new Date(String(a[1].fecha).replace(/ /g, "T")) - new Date(String(b[1].fecha).replace(/ /g, "T"))
+    );
+
+    if (!partidos.length) { container.innerHTML += `<div class="loading">No hay partidos cargados aún.</div>`; return; }
+
     let faseActual = null;
 
     partidos.forEach(([key, p]) => {
@@ -742,18 +413,13 @@
       const eqB = obtenerInfoEquipo(p.equipo_B);
       const pron = pronosticosCache[key] || {};
       const finalizado = p.estado === "finalizado";
-      
-      const deshabilitado = finalizado || limiteBloqueo;
-
-      const pts = finalizado
-        ? calcularPuntos(pron, { goles_A: p.goles_A_real, goles_B: p.goles_B_real })
-        : null;
+      const deshabilitado = finalizado || congelado;
+      const pts = finalizado ? calcularPuntos(pron, { goles_A: p.goles_A_real, goles_B: p.goles_B_real }) : null;
 
       let badgePts = "";
       if (pts === 3) badgePts = `<span class="badge-pts pts-3">⭐ ¡3 puntos!</span>`;
       else if (pts === 1) badgePts = `<span class="badge-pts pts-1">✓ 1 punto</span>`;
-      else if (pts === 0 && finalizado && pron.goles_A !== undefined)
-        badgePts = `<span class="badge-pts pts-0">😬 0 pts</span>`;
+      else if (pts === 0 && finalizado && pron.goles_A !== undefined) badgePts = `<span class="badge-pts pts-0">😬 0 pts</span>`;
 
       const vsBlock = finalizado
         ? `<div class="resultado-real">${p.goles_A_real} - ${p.goles_B_real}</div>`
@@ -767,118 +433,104 @@
       card.innerHTML = `
         <div class="partido-header">
           ${badgePts}
-          <div class="equipo">
-            <div class="equipo-bandera">${eqA.banderaHtml}</div>
-            <div class="equipo-nombre">${eqA.nombre}</div>
-          </div>
+          <div class="equipo"><div>${eqA.banderaHtml}</div><div class="equipo-nombre">${eqA.nombre}</div></div>
           <div class="vs-area">${vsBlock}${miPronTexto}</div>
-          <div class="equipo">
-            <div class="equipo-bandera">${eqB.banderaHtml}</div>
-            <div class="equipo-nombre">${eqB.nombre}</div>
-          </div>
+          <div class="equipo"><div>${eqB.banderaHtml}</div><div class="equipo-nombre">${eqB.nombre}</div></div>
         </div>
         <div class="pronostico-area">
           <div class="pronostico-label">Tu pronóstico</div>
           <div class="score-inputs">
-            <input class="score-input" type="number" min="0" max="30"
-              id="gA-${key}" value="${pron.goles_A ?? ''}" placeholder="0" ${deshabilitado ? 'disabled' : ''} />
+            <input class="score-input" type="number" min="0" max="30" id="gA-${key}" value="${pron.goles_A ?? ''}" placeholder="0" ${deshabilitado ? 'disabled' : ''} />
             <span class="score-sep">-</span>
-            <input class="score-input" type="number" min="0" max="30"
-              id="gB-${key}" value="${pron.goles_B ?? ''}" placeholder="0" ${deshabilitado ? 'disabled' : ''} />
+            <input class="score-input" type="number" min="0" max="30" id="gB-${key}" value="${pron.goles_B ?? ''}" placeholder="0" ${deshabilitado ? 'disabled' : ''} />
           </div>
           <button class="btn-guardar" id="btn-${key}" ${deshabilitado ? 'disabled' : ''}>
-            ${finalizado ? '🔒 Cerrado' : (limiteBloqueo ? '🔒 Expiró' : '💾 Guardar')}
+            ${finalizado ? '🔒 Cerrado' : (congelado ? '🔒 Expiró' : '💾 Guardar')}
           </button>
         </div>`;
-      container.appendChild(card);
 
-      if (!deshabilitado) {
-        document.getElementById(`btn-${key}`).addEventListener("click", () => guardarPronostico(key));
+      // Pronósticos de todos (desde el 10/6)
+      if (congelado && Object.keys(todosPronosticosCache).length > 0) {
+        const todosDiv = document.createElement("div");
+        todosDiv.className = "todos-pronos";
+        const chips = Object.entries(todosPronosticosCache)
+          .filter(([uid, pronos]) => pronos && pronos[key])
+          .map(([uid, pronos]) => {
+            const pr = pronos[key];
+            const nombre = nombreUsuario(usuariosCache[uid]);
+            const score = `${pr.goles_A}-${pr.goles_B}`;
+            let clase = "pendiente";
+            if (finalizado) {
+              const r = calcularPuntos(pr, { goles_A: p.goles_A_real, goles_B: p.goles_B_real });
+              if (r === 3) clase = "exacto";
+              else if (r === 1) clase = "ganador";
+              else if (r === 0) clase = "fallido";
+            }
+            const esYo = uid === currentUser.uid;
+            return `<div class="prono-chip ${clase}">
+              ${esYo ? '👤 ' : ''}<span>${nombre.split(" ")[0]}</span>
+              <span class="prono-score">${score}</span>
+            </div>`;
+          }).join("");
+
+        if (chips) {
+          todosDiv.innerHTML = `<div class="todos-pronos-titulo">🕵️ Pronósticos del grupo</div><div class="pronos-grid">${chips}</div>`;
+          card.appendChild(todosDiv);
+        }
       }
+
+      container.appendChild(card);
+      if (!deshabilitado) document.getElementById(`btn-${key}`).addEventListener("click", () => guardarPronostico(key));
     });
-}
+  }
 
   async function guardarPronostico(key) {
-    if (esFechaLimiteExcedida()) {
-      toast("🔒 Tiempo agotado. El prode cerró el 10 de junio.");
-      return;
-    }
+    if (esCongelare()) { toast("🔒 Tiempo agotado."); return; }
     const gA = document.getElementById(`gA-${key}`).value;
     const gB = document.getElementById(`gB-${key}`).value;
     if (gA === "" || gB === "") { toast("✍️ Completá ambos goles"); return; }
     const btn = document.getElementById(`btn-${key}`);
     btn.disabled = true; btn.textContent = "...";
-    await set(ref(db, `pronosticos/${currentUser.uid}/${key}`), {
-      goles_A: Number(gA), goles_B: Number(gB), timestamp: Date.now()
-    });
-    pronosticosCache[key] = { goles_A: Number(gA), goles_B: Number(gB) };
-    btn.disabled = false; btn.textContent = "💾 Guardar";
-    const msgs = ["🎯 ¡Guardado!", "🔥 ¡Dale que viene!", "🧠 ¡Gran análisis!", "⚽ ¡A rezar!"];
-    toast(msgs[Math.floor(Math.random() * msgs.length)]);
+    try {
+      await set(ref(db, `pronosticos/${currentUser.uid}/${key}`), { goles_A: Number(gA), goles_B: Number(gB), timestamp: Date.now() });
+      pronosticosCache[key] = { goles_A: Number(gA), goles_B: Number(gB) };
+      btn.disabled = false; btn.textContent = "💾 Guardar";
+      toast(["🎯 ¡Guardado!", "🔥 ¡Dale!", "🧠 ¡Gran análisis!", "⚽ ¡A rezar!"][Math.floor(Math.random()*4)]);
+    } catch(e) { btn.disabled = false; btn.textContent = "💾 Guardar"; toast("❌ Error al guardar"); }
   }
 
   document.getElementById("btn-guardar-todo").addEventListener("click", async () => {
-    if (!currentUser) return;
-    if (esFechaLimiteExcedida()) {
-      toast("🔒 Tiempo agotado. No podés guardar pronósticos.");
-      return;
-    }
+    if (!currentUser || esCongelare()) { toast("🔒 Tiempo agotado."); return; }
     const updates = {};
-    let contadorCargados = 0;
-
+    let contador = 0;
     Object.entries(partidosCache).forEach(([key, p]) => {
-      if (!p || !p.fase) return;
+      if (!p || !p.fase || p.estado === "finalizado") return;
       if (!p.fase.toLowerCase().includes("group") && !p.fase.toLowerCase().includes("grupo")) return;
-      if (p.estado === "finalizado") return;
-
-      const inputA = document.getElementById(`gA-${key}`);
-      const inputB = document.getElementById(`gB-${key}`);
-      if (!inputA || !inputB) return;
-
-      const gA = inputA.value;
-      const gB = inputB.value;
-
-      if (gA !== "" && gB !== "") {
-        updates[`pronosticos/${currentUser.uid}/${key}`] = {
-          goles_A: Number(gA),
-          goles_B: Number(gB),
-          timestamp: Date.now()
-        };
-        pronosticosCache[key] = { goles_A: Number(gA), goles_B: Number(gB) };
-        contadorCargados++;
-      }
+      const iA = document.getElementById(`gA-${key}`);
+      const iB = document.getElementById(`gB-${key}`);
+      if (!iA || !iB || iA.value === "" || iB.value === "") return;
+      updates[`pronosticos/${currentUser.uid}/${key}`] = { goles_A: Number(iA.value), goles_B: Number(iB.value), timestamp: Date.now() };
+      pronosticosCache[key] = { goles_A: Number(iA.value), goles_B: Number(iB.value) };
+      contador++;
     });
-
-    if (contadorCargados === 0) {
-      toast("✍️ No metiste ningún pálpito nuevo, che");
-      return;
-    }
-
-    try {
-      await update(ref(db), updates);
-      toast(`🚀 ¡${contadorCargados} pálpitos guardados en lote! 🔥`);
-      renderPronosticos();
-    } catch (e) {
-      console.error(e);
-      toast("❌ Error al guardar en lote");
-    }
+    if (contador === 0) { toast("✍️ No metiste ningún pálpito nuevo"); return; }
+    try { await update(ref(db), updates); toast(`🚀 ¡${contador} pálpitos guardados! 🔥`); renderPronosticos(); }
+    catch(e) { toast("❌ Error al guardar en lote"); }
   });
 
+  // ── POSICIONES ──
   async function renderPosiciones() {
     const container = document.getElementById("view-posiciones");
     container.innerHTML = '<div class="loading">Calculando el ranking...</div>';
 
     const [snapU, snapP, snapPr] = await Promise.all([
-      get(ref(db, "usuarios")),
-      get(ref(db, "partidos")),
-      get(ref(db, "pronosticos"))
+      get(ref(db, "usuarios")), get(ref(db, "partidos")), get(ref(db, "pronosticos"))
     ]);
-
     const usuarios = snapU.exists() ? snapU.val() : {};
     const partidos = snapP.exists() ? snapP.val() : {};
     const pronTodos = snapPr.exists() ? snapPr.val() : {};
-    
-    const finalizados = Object.entries(partidos).filter(([, p]) => 
+
+    const finalizados = Object.entries(partidos).filter(([, p]) =>
       p && p.estado === "finalizado" && (p.fase.toLowerCase().includes("group") || p.fase.toLowerCase().includes("grupo"))
     );
 
@@ -886,30 +538,35 @@
       const mis = pronTodos[uid] || {};
       let pts = 0, exactos = 0, ganadores = 0, jugados = 0;
       finalizados.forEach(([key, p]) => {
-        const pr = mis[key];
-        if (!pr) return;
+        const pr = mis[key]; if (!pr) return;
         const r = calcularPuntos(pr, { goles_A: p.goles_A_real, goles_B: p.goles_B_real });
         if (r === null) return;
         jugados++; pts += r;
         if (r === 3) exactos++;
         if (r >= 1) ganadores++;
       });
-      return { uid, nombre: u.nombre || u.email, pts, exactos, ganadores, jugados };
+      return { uid, nombre: nombreUsuario(u), pts, exactos, ganadores, jugados };
     }).sort((a, b) => b.pts - a.pts || b.exactos - a.exactos);
 
     container.innerHTML = "";
 
     if (tabla.length > 0) {
       const lider = tabla[0];
-      const esYoLider = lider.uid === currentUser.uid;
-      const frasePos = esYoLider
-        ? `👑 ¡Vas primero, ${lider.nombre.split(" ")[0]}! No aflojes.`
-        : `👑 ${lider.nombre.split(" ")[0]} lidera con ${lider.pts} pts. ¿Lo podés alcanzar?`;
       const fc = document.createElement("div");
       fc.className = "frase-card";
-      fc.textContent = frasePos;
+      fc.textContent = lider.uid === currentUser.uid
+        ? `👑 ¡Vas primero, ${lider.nombre.split(" ")[0]}! No aflojes.`
+        : `👑 ${lider.nombre.split(" ")[0]} lidera con ${lider.pts} pts. ¿Lo podés alcanzar?`;
       container.appendChild(fc);
     }
+
+    // Botones de exportar
+    const exportDiv = document.createElement("div");
+    exportDiv.className = "export-btns";
+    exportDiv.innerHTML = `
+      <button class="btn-export btn-export-img" id="btn-export-img">📸 Guardar como imagen</button>
+      <button class="btn-export btn-export-wsp" id="btn-export-wsp">💬 Compartir por WhatsApp</button>`;
+    container.appendChild(exportDiv);
 
     const titulo = document.createElement("p");
     titulo.className = "seccion-titulo";
@@ -918,21 +575,17 @@
 
     const wrap = document.createElement("div");
     wrap.className = "tabla-pos";
-    const medallas = ["🥇", "🥈", "🥉"];
-
+    wrap.id = "tabla-para-exportar";
+    const medallas = ["🥇","🥈","🥉"];
     const rows = tabla.map((u, i) => {
       const pos = i + 1;
-      const clasePos = pos <= 3 ? `pos-${pos}` : "pos-n";
       const esMio = u.uid === currentUser.uid;
-      const posLabel = pos <= 3 ? medallas[i] : pos;
-      const rangoBizarro = obtenerRangoBizarro(u.pts, pos, tabla.length);
-
       return `<tr class="${esMio ? 'yo-row' : ''}">
         <td>
-          <span class="pos-num ${clasePos}">${posLabel}</span>
-          <div style="display: inline-flex; flex-direction: column; vertical-align: middle;">
-            <span style="font-weight: 800;">${u.nombre.split(" ")[0]}${esMio ? ' 👈' : ''}</span>
-            <span style="font-size: 0.65rem; color: var(--texto-suave); font-weight: bold; text-transform: uppercase;">${rangoBizarro}</span>
+          <span class="pos-num ${pos<=3 ? 'pos-'+pos : 'pos-n'}">${pos<=3 ? medallas[i] : pos}</span>
+          <div style="display:inline-flex;flex-direction:column;vertical-align:middle;">
+            <span style="font-weight:800;">${u.nombre.split(" ")[0]}${esMio ? ' 👈' : ''}</span>
+            <span style="font-size:0.65rem;color:var(--texto-suave);font-weight:bold;text-transform:uppercase;">${obtenerRangoBizarro(u.pts, pos, tabla.length)}</span>
           </div>
         </td>
         <td class="pts-total">${u.pts}</td>
@@ -942,120 +595,155 @@
       </tr>`;
     }).join("");
 
-    wrap.innerHTML = `<table>
-      <thead><tr>
-        <th>Jugador</th><th>Puntos</th><th>Exactos</th><th>Ganador</th><th>Jugados</th>
-      </tr></thead>
-      <tbody>${rows}</tbody>
-    </table>`;
+    wrap.innerHTML = `<table><thead><tr><th>Jugador</th><th>Puntos</th><th>Exactos</th><th>Ganador</th><th>PJ</th></tr></thead><tbody>${rows}</tbody></table>`;
     container.appendChild(wrap);
+    container.innerHTML += `<div class="leyenda">⭐ Resultado exacto = 3 pts · ✓ Acertar ganador = 1 pt</div>`;
 
-    const leyenda = document.createElement("div");
-    leyenda.className = "leyenda";
-    leyenda.textContent = "⭐ Resultado exacto = 3 pts · ✓ Acertar ganador = 1 pt";
-    container.appendChild(leyenda);
+    // Exportar como imagen
+    document.getElementById("btn-export-img").addEventListener("click", async () => {
+      const el = document.getElementById("tabla-para-exportar");
+      if (!el) return;
+      try {
+        const { default: html2canvas } = await import("https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.esm.min.js");
+        const canvas = await html2canvas(el, { backgroundColor: "#ffffff", scale: 2 });
+        const link = document.createElement("a");
+        link.download = "tabla-clan-waltner.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+        toast("📸 ¡Imagen guardada!");
+      } catch(e) { toast("❌ Error al generar imagen"); console.error(e); }
+    });
+
+    // Exportar a WhatsApp
+    document.getElementById("btn-export-wsp").addEventListener("click", () => {
+      let mensaje = `🏆 *PRODE CLAN WALTNER - TABLA* ⚽\n\n`;
+      tabla.forEach((u, i) => {
+        const icono = ["🥇","🥈","🥉"][i] || "🏃‍♂️";
+        mensaje += `${icono} *${i+1}° ${u.nombre.split(" ")[0]}:* ${u.pts} pts (⭐${u.exactos} ✓${u.ganadores})\n`;
+      });
+      mensaje += `\n🔥 Líder: ${tabla[0].nombre.split(" ")[0]}`;
+      if (tabla.length > 1) mensaje += `\n🤡 Último: ${tabla[tabla.length-1].nombre.split(" ")[0]} (prendé el fuego)`;
+      window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`, "_blank");
+    });
   }
 
+  // ── CLASIFICACIÓN ──
+  async function renderClasificacion() {
+    const container = document.getElementById("view-clasificacion");
+    container.innerHTML = '<div class="loading">Calculando clasificación...</div>';
+    const snapP = await get(ref(db, "partidos"));
+    if (!snapP.exists()) { container.innerHTML = '<div class="loading">No hay partidos cargados.</div>'; return; }
+    const partidos = snapP.val();
+
+    const grupos = {};
+    Object.entries(partidos).forEach(([key, p]) => {
+      if (!p || !p.fase || !p.equipo_A || !p.equipo_B) return;
+      if (!p.fase.toLowerCase().includes("group") && !p.fase.toLowerCase().includes("grupo")) return;
+      if (!grupos[p.fase]) grupos[p.fase] = [];
+      grupos[p.fase].push({ key, ...p });
+    });
+
+    container.innerHTML = "";
+    const titulo = document.createElement("p");
+    titulo.className = "seccion-titulo";
+    titulo.textContent = "📊 Clasificación por Grupo";
+    container.appendChild(titulo);
+
+    const nota = document.createElement("div");
+    nota.style.cssText = "background:rgba(46,194,126,0.15);border:1.5px solid var(--verde);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;font-weight:700;color:#0f7a4a;";
+    nota.textContent = "🟢 Los 2 primeros de cada grupo clasifican a octavos. Se actualiza con los resultados reales.";
+    container.appendChild(nota);
+
+    Object.entries(grupos).sort((a, b) => a[0].localeCompare(b[0])).forEach(([fase, partidos]) => {
+      const equipos = {};
+      partidos.forEach(p => {
+        [p.equipo_A, p.equipo_B].forEach(eq => { if (!equipos[eq]) equipos[eq] = { pts:0, pj:0, pg:0, pe:0, pp:0, gf:0, gc:0 }; });
+        if (p.estado !== "finalizado" || p.goles_A_real === undefined) return;
+        const gA = Number(p.goles_A_real), gB = Number(p.goles_B_real);
+        equipos[p.equipo_A].pj++; equipos[p.equipo_A].gf += gA; equipos[p.equipo_A].gc += gB;
+        equipos[p.equipo_B].pj++; equipos[p.equipo_B].gf += gB; equipos[p.equipo_B].gc += gA;
+        if (gA > gB) { equipos[p.equipo_A].pts += 3; equipos[p.equipo_A].pg++; equipos[p.equipo_B].pp++; }
+        else if (gA < gB) { equipos[p.equipo_B].pts += 3; equipos[p.equipo_B].pg++; equipos[p.equipo_A].pp++; }
+        else { equipos[p.equipo_A].pts++; equipos[p.equipo_A].pe++; equipos[p.equipo_B].pts++; equipos[p.equipo_B].pe++; }
+      });
+
+      const tablaGrupo = Object.entries(equipos).sort((a, b) => {
+        const dA = a[1].gf - a[1].gc, dB = b[1].gf - b[1].gc;
+        return b[1].pts - a[1].pts || dB - dA || b[1].gf - a[1].gf;
+      });
+
+      const grupoCard = document.createElement("div");
+      grupoCard.className = "grupo-card";
+      grupoCard.innerHTML = `<div class="grupo-card-header">📌 ${fase}</div>`;
+
+      const table = document.createElement("table");
+      table.className = "grupo-table";
+      table.innerHTML = `<thead><tr><th>Equipo</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead>`;
+      const tbody = document.createElement("tbody");
+
+      tablaGrupo.forEach(([nombreIngles, stats], i) => {
+        const info = obtenerInfoEquipo(nombreIngles);
+        const dif = stats.gf - stats.gc;
+        const clasifica = i < 2;
+        const tr = document.createElement("tr");
+        tr.className = clasifica ? "clasifica" : "no-clasifica";
+        const flagHtml = info.banderaHtml.includes('<img')
+          ? info.banderaHtml.replace('class="equipo-bandera-img"', 'class="eq-flag"')
+          : `<span style="font-size:1.1rem">${info.banderaHtml}</span>`;
+        tr.innerHTML = `
+          <td>${flagHtml}<span>${info.nombre}</span>${clasifica ? '<span class="clasif-badge">Clasifica</span>' : ''}</td>
+          <td>${stats.pj}</td><td>${stats.pg}</td><td>${stats.pe}</td><td>${stats.pp}</td>
+          <td>${stats.gf}</td><td>${stats.gc}</td>
+          <td style="font-weight:900;color:${dif>0?'#0f7a4a':dif<0?'#e84040':'inherit'}">${dif>0?'+':''}${dif}</td>
+          <td style="font-weight:900;font-size:1.1rem;color:var(--violeta)">${stats.pts}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      table.appendChild(tbody);
+      grupoCard.appendChild(table);
+      container.appendChild(grupoCard);
+    });
+  }
+
+  // ── ADMIN ──
   function renderAdmin() {
     const container = document.getElementById("admin-partidos-list");
     container.innerHTML = "";
-    
-    // 🚀 Sort también blindado para la sección de administración
-    const partidos = Object.entries(partidosCache)
-      .sort((a, b) => {
-        const dateA = new Date(String(a[1].fecha).replace(/ /g, "T"));
-        const dateB = new Date(String(b[1].fecha).replace(/ /g, "T"));
-        return dateA - dateB;
-      });
-
-    partidos.forEach(([key, p]) => {
+    Object.entries(partidosCache).sort((a, b) =>
+      new Date(String(a[1].fecha).replace(/ /g, "T")) - new Date(String(b[1].fecha).replace(/ /g, "T"))
+    ).forEach(([key, p]) => {
       if (!p || !p.equipo_A || !p.equipo_B || !p.fase) return;
       if (!p.fase.toLowerCase().includes("group") && !p.fase.toLowerCase().includes("grupo")) return;
-
       const eqA = obtenerInfoEquipo(p.equipo_A);
       const eqB = obtenerInfoEquipo(p.equipo_B);
-
       const card = document.createElement("div");
       card.className = "admin-card";
-      const estadoClass = `estado-${(p.estado || "pendiente").replace(" ", "_")}`;
       card.innerHTML = `
         <div class="admin-header">
-          <div class="admin-titulo">
-            ${eqA.banderaHtml} <span>${eqA.nombre} vs ${eqB.nombre}</span> ${eqB.banderaHtml}
-          </div>
-          <span class="badge-estado ${estadoClass}">${p.estado || "pendiente"}</span>
+          <div class="admin-titulo">${eqA.banderaHtml} <span>${eqA.nombre} vs ${eqB.nombre}</span> ${eqB.banderaHtml}</div>
+          <span class="badge-estado estado-${(p.estado||'pendiente').replace(' ','_')}">${p.estado||'pendiente'}</span>
         </div>
         <div class="admin-body">
           <label>Resultado:</label>
-          <input class="score-input" type="number" min="0" id="adm-gA-${key}" value="${p.goles_A_real ?? ''}" placeholder="0" />
+          <input class="score-input" type="number" min="0" id="adm-gA-${key}" value="${p.goles_A_real??''}" placeholder="0" />
           <span class="score-sep">-</span>
-          <input class="score-input" type="number" min="0" id="adm-gB-${key}" value="${p.goles_B_real ?? ''}" placeholder="0" />
+          <input class="score-input" type="number" min="0" id="adm-gB-${key}" value="${p.goles_B_real??''}" placeholder="0" />
           <button class="btn-guardar" id="adm-btn-${key}">✅ Guardar</button>
         </div>`;
       container.appendChild(card);
-      document.getElementById(`adm-btn-${key}`).addEventListener("click", () => guardarResultado(key));
-    });
-  }
-
-  async function guardarResultado(key) {
-    const gA = document.getElementById(`adm-gA-${key}`).value;
-    const gB = document.getElementById(`adm-gB-${key}`).value;
-    if (gA === "" || gB === "") { toast("✍️ Completá ambos goles"); return; }
-    await update(ref(db, `partidos/${key}`), {
-      goles_A_real: Number(gA), goles_B_real: Number(gB), estado: "finalizado"
-    });
-    partidosCache[key].goles_A_real = Number(gA);
-    partidosCache[key].goles_B_real = Number(gB);
-    partidosCache[key].estado = "finalizado";
-    toast(`✅ ${gA} - ${gB} guardado 🔥`);
-    renderAdmin();
-  }
-
-  document.getElementById("btn-recalcular").addEventListener("click", async () => {
-    await cargarTodo();
-    toast("🔄 Todo actualizado");
-  });
-
-  document.getElementById("btn-whatsapp").addEventListener("click", async () => {
-    const [snapU, snapP, snapPr] = await Promise.all([
-      get(ref(db, "usuarios")), get(ref(db, "partidos")), get(ref(db, "pronosticos"))
-    ]);
-    
-    const usuarios = snapU.exists() ? snapU.val() : {};
-    const partidos = snapP.exists() ? snapP.val() : {};
-    const pronTodos = snapPr.exists() ? snapPr.val() : {};
-    
-    const finalizados = Object.entries(partidos).filter(([, p]) => 
-      p && p.estado === "finalizado" && (p.fase.toLowerCase().includes("group") || p.fase.toLowerCase().includes("grupo"))
-    );
-
-    const tabla = Object.entries(usuarios).map(([uid, u]) => {
-      let pts = 0;
-      finalizados.forEach(([key, p]) => {
-        if (pronTodos[uid]?.[key]) pts += calcularPuntos(pronTodos[uid][key], { goles_A: p.goles_A_real, goles_B: p.goles_B_real }) || 0;
+      document.getElementById(`adm-btn-${key}`).addEventListener("click", async () => {
+        const gA = document.getElementById(`adm-gA-${key}`).value;
+        const gB = document.getElementById(`adm-gB-${key}`).value;
+        if (gA===""||gB==="") { toast("✍️ Completá ambos goles"); return; }
+        await update(ref(db, `partidos/${key}`), { goles_A_real: Number(gA), goles_B_real: Number(gB), estado: "finalizado" });
+        partidosCache[key].goles_A_real = Number(gA); partidosCache[key].goles_B_real = Number(gB); partidosCache[key].estado = "finalizado";
+        toast(`✅ ${gA} - ${gB} guardado 🔥`);
+        renderAdmin();
       });
-      return { nombre: u.nombre || u.email, pts };
-    }).sort((a, b) => b.pts - a.pts);
-
-    if (!tabla.length) return toast("No hay nadie en la tabla todavía");
-
-    let mensaje = `🏆 *PRODE CLAN WALTNER - ESTADO DE SITUACIÓN* ⚽\n\n`;
-    mensaje += `Se cerró la jornada y la interna familiar está que arde. Así vienen las cosas:\n\n`;
-    
-    tabla.forEach((u, i) => {
-      const medallas = ["🥇", "🥈", "🥉"];
-      const icono = i <= 2 ? medallas[i] : "🏃‍♂️";
-      mensaje += `${icono} *${i+1}° ${u.nombre.split(" ")[0]}:* ${u.pts} pts\n`;
     });
+  }
 
-    mensaje += `\n🔥 *Líder:* ${tabla[0].nombre.split(" ")[0]} (anda agrandado).\n`;
-    if(tabla.length > 1) {
-      mensaje += `🤡 *Último cómodo:* ${tabla[tabla.length - 1].nombre.split(" ")[0]} (andá prendiendo el fuego para el asado).\n`;
-    }
-
-    const urlUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`;
-    window.open(urlUrl, "_blank");
-  });
+  document.getElementById("btn-recalcular").addEventListener("click", async () => { await cargarTodo(); toast("🔄 Todo actualizado"); });
 </script>
 </body>
 </html>

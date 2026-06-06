@@ -360,13 +360,19 @@
     if (congelado) {
       queries.push(get(ref(db, "pronosticos")));
       queries.push(get(ref(db, "usuarios")));
+      queries.push(get(ref(db, "clan_waltner")));
     }
     const results = await Promise.all(queries);
     partidosCache = results[0].exists() ? results[0].val() : {};
     pronosticosCache = results[1].exists() ? results[1].val() : {};
     if (congelado) {
-      todosPronosticosCache = results[2].exists() ? results[2].val() : {};
+      const todosLosPronos = results[2].exists() ? results[2].val() : {};
       usuariosCache = results[3].exists() ? results[3].val() : {};
+      const miembrosClan = results[4].exists() ? results[4].val() : {};
+      // Filtrar pronósticos solo de miembros del clan
+      todosPronosticosCache = Object.fromEntries(
+        Object.entries(todosLosPronos).filter(([uid]) => miembrosClan[uid] === true)
+      );
     }
     renderPronosticos();
   }
@@ -523,18 +529,22 @@
     const container = document.getElementById("view-posiciones");
     container.innerHTML = '<div class="loading">Calculando el ranking...</div>';
 
-    const [snapU, snapP, snapPr] = await Promise.all([
-      get(ref(db, "usuarios")), get(ref(db, "partidos")), get(ref(db, "pronosticos"))
+    const [snapU, snapP, snapPr, snapClan] = await Promise.all([
+      get(ref(db, "usuarios")), get(ref(db, "partidos")), get(ref(db, "pronosticos")),
+      get(ref(db, "clan_waltner"))
     ]);
     const usuarios = snapU.exists() ? snapU.val() : {};
     const partidos = snapP.exists() ? snapP.val() : {};
     const pronTodos = snapPr.exists() ? snapPr.val() : {};
+    const miembrosClan = snapClan.exists() ? snapClan.val() : {};
 
     const finalizados = Object.entries(partidos).filter(([, p]) =>
       p && p.estado === "finalizado" && (p.fase.toLowerCase().includes("group") || p.fase.toLowerCase().includes("grupo"))
     );
 
-    const tabla = Object.entries(usuarios).map(([uid, u]) => {
+    const tabla = Object.entries(usuarios)
+      .filter(([uid]) => miembrosClan[uid] === true)
+      .map(([uid, u]) => {
       const mis = pronTodos[uid] || {};
       let pts = 0, exactos = 0, ganadores = 0, jugados = 0;
       finalizados.forEach(([key, p]) => {
@@ -615,14 +625,17 @@
     });
 
     // Exportar a WhatsApp
-    document.getElementById("btn-export-wsp").addEventListener("click", () => {
+    document.getElementById("btn-export-wsp").addEventListener("click", async () => {
+      const snapClan = await get(ref(db, "clan_waltner"));
+      const miembrosClan = snapClan.exists() ? snapClan.val() : {};
       let mensaje = `🏆 *PRODE CLAN WALTNER - TABLA* ⚽\n\n`;
-      tabla.forEach((u, i) => {
+      tabla.filter(u => miembrosClan[u.uid] === true).forEach((u, i) => {
         const icono = ["🥇","🥈","🥉"][i] || "🏃‍♂️";
         mensaje += `${icono} *${i+1}° ${u.nombre.split(" ")[0]}:* ${u.pts} pts (⭐${u.exactos} ✓${u.ganadores})\n`;
       });
-      mensaje += `\n🔥 Líder: ${tabla[0].nombre.split(" ")[0]}`;
-      if (tabla.length > 1) mensaje += `\n🤡 Último: ${tabla[tabla.length-1].nombre.split(" ")[0]} (prendé el fuego)`;
+      const tablaFiltrada = tabla.filter(u => miembrosClan[u.uid] === true);
+      mensaje += `\n🔥 Líder: ${tablaFiltrada[0]?.nombre.split(" ")[0] || tabla[0].nombre.split(" ")[0]}`;
+      if (tablaFiltrada.length > 1) mensaje += `\n🤡 Último: ${tablaFiltrada[tablaFiltrada.length-1].nombre.split(" ")[0]} (prendé el fuego)`;
       window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(mensaje)}`, "_blank");
     });
   }

@@ -214,7 +214,7 @@
   const ADMIN_UIDS = ["PcIXOLk7ZmY6JPR9dGWfnm4M0862"];
   const FECHA_LIMITE = new Date(2026, 5, 11, 0, 0, 0); // 11 junio 2026
 
-  const fireApp = initializeApp(firebaseConfig, "familiar");
+  const fireApp = initializeApp(firebaseConfig);
   const auth = getAuth(fireApp);
   const db = getDatabase(fireApp);
   const provider = new GoogleAuthProvider();

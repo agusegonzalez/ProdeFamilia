@@ -46,6 +46,7 @@
     .frase-card { background: var(--amarillo); border-radius: 16px; padding: 14px 18px; margin-bottom: 1rem; font-family: 'Boogaloo', sans-serif; font-size: 1.1rem; color: #5a4000; text-align: center; border: 2.5px solid #d4a800; animation: wiggle 3s infinite; }
     @keyframes wiggle { 0%,100% { transform: rotate(-0.5deg); } 50% { transform: rotate(0.5deg); } }
     .fase-label { display: inline-block; font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; background: var(--violeta); color: white; padding: 4px 12px; border-radius: 20px; margin: 1.2rem 0 0.6rem; }
+    .fase-label.fase-jugados { background: var(--texto-suave); }
 
     .partido-card { background: white; border-radius: 20px; border: 2.5px solid var(--gris-borde); margin-bottom: 12px; overflow: hidden; transition: transform 0.15s, box-shadow 0.15s; }
     .partido-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(108,63,197,0.15); }
@@ -116,17 +117,20 @@
     /* CLASIFICACIÓN */
     .grupo-card { background: white; border-radius: 20px; border: 2.5px solid var(--gris-borde); margin-bottom: 16px; overflow: hidden; }
     .grupo-card-header { background: var(--violeta); color: white; padding: 12px 16px; font-family: 'Boogaloo', sans-serif; font-size: 1.2rem; }
-    .grupo-table { width: 100%; border-collapse: collapse; }
-    .grupo-table th { font-size: 0.68rem; font-weight: 900; text-transform: uppercase; color: var(--texto-suave); padding: 8px 10px; text-align: center; background: var(--gris); border-bottom: 1.5px solid var(--gris-borde); }
+    .grupo-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    .grupo-table th { font-size: 0.68rem; font-weight: 900; text-transform: uppercase; color: var(--texto-suave); padding: 8px 6px; text-align: center; background: var(--gris); border-bottom: 1.5px solid var(--gris-borde); }
     .grupo-table th:first-child { text-align: left; }
-    .grupo-table td { padding: 10px; font-size: 0.82rem; font-weight: 700; border-bottom: 1px solid var(--gris-borde); text-align: center; color: var(--texto); }
-    .grupo-table td:first-child { text-align: left; display: flex; align-items: center; gap: 8px; padding-left: 12px; }
+    .grupo-table td { padding: 10px 6px; font-size: 0.82rem; font-weight: 700; border-bottom: 1px solid var(--gris-borde); text-align: center; color: var(--texto); }
+    .grupo-table td:first-child { text-align: left; display: flex; align-items: center; gap: 6px; padding-left: 10px; }
     .grupo-table tr:last-child td { border-bottom: none; }
     .clasifica { background: rgba(46,194,126,0.08); }
     .clasifica td:first-child { border-left: 4px solid var(--verde); }
     .no-clasifica td:first-child { border-left: 4px solid transparent; }
-    .eq-flag { width: 28px; height: 19px; object-fit: cover; border-radius: 3px; border: 1px solid var(--gris-borde); flex-shrink: 0; }
-    .clasif-badge { font-size: 0.65rem; font-weight: 900; padding: 2px 7px; border-radius: 10px; background: var(--verde-claro); color: #0f7a4a; }
+    .eq-flag { width: 26px; height: 18px; object-fit: cover; border-radius: 3px; border: 1px solid var(--gris-borde); flex-shrink: 0; }
+    .clasif-badge { font-size: 0.6rem; font-weight: 900; padding: 2px 6px; border-radius: 10px; background: var(--verde-claro); color: #0f7a4a; white-space: nowrap; }
+    .eq-nombre-txt { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* Columna PG-PE-PP combinada (compacta, sin scroll) */
+    .grupo-table .col-pgepp { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
     /* ADMIN */
     .admin-card { background: white; border-radius: 18px; border: 2.5px solid var(--gris-borde); margin-bottom: 10px; overflow: hidden; }
@@ -147,6 +151,14 @@
       .equipo-bandera-img { width: 36px; height: 24px; }
       .equipo-nombre { font-size: 0.68rem; max-width: 72px; }
       .score-input { width: 40px; height: 36px; font-size: 1rem; }
+
+      /* Tabla de clasificación compacta: ocultamos GF/GC y fusionamos PG-PE-PP en una sola columna */
+      .grupo-table th, .grupo-table td { padding: 8px 4px; font-size: 0.72rem; }
+      .grupo-table th:first-child, .grupo-table td:first-child { padding-left: 8px; }
+      .eq-flag { width: 22px; height: 15px; }
+      .eq-nombre-txt { max-width: 60px; }
+      .clasif-badge { display: none; } /* el borde verde ya indica clasificación */
+      .col-gf, .col-gc { display: none; }
     }
   </style>
 </head>
@@ -403,99 +415,107 @@
       container.appendChild(aviso);
     }
 
-    const partidos = Object.entries(partidosCache).sort((a, b) =>
-      new Date(String(a[1].fecha).replace(/ /g, "T")) - new Date(String(b[1].fecha).replace(/ /g, "T"))
+    // Solo partidos de fase de grupos, válidos
+    const partidosGrupo = Object.entries(partidosCache).filter(([, p]) =>
+      p && p.equipo_A && p.equipo_B && p.fase &&
+      (p.fase.toLowerCase().includes("group") || p.fase.toLowerCase().includes("grupo"))
     );
 
-    if (!partidos.length) { container.innerHTML += `<div class="loading">No hay partidos cargados aún.</div>`; return; }
+    if (!partidosGrupo.length) { container.innerHTML += `<div class="loading">No hay partidos cargados aún.</div>`; return; }
 
-    let faseActual = null;
+    // Separar pendientes y finalizados, cada bloque ordenado por fecha
+    const porFecha = (a, b) => new Date(String(a[1].fecha).replace(/ /g, "T")) - new Date(String(b[1].fecha).replace(/ /g, "T"));
+    const pendientes = partidosGrupo.filter(([, p]) => p.estado !== "finalizado").sort(porFecha);
+    const finalizados = partidosGrupo.filter(([, p]) => p.estado === "finalizado").sort(porFecha);
 
-    partidos.forEach(([key, p]) => {
-      if (!p || !p.equipo_A || !p.equipo_B || !p.fase) return;
-      if (!p.fase.toLowerCase().includes("group") && !p.fase.toLowerCase().includes("grupo")) return;
-
-      if (p.fase !== faseActual) {
-        faseActual = p.fase;
-        const lbl = document.createElement("div");
-        lbl.className = "fase-label";
-        lbl.textContent = "📌 " + p.fase;
-        container.appendChild(lbl);
-      }
-
-      const eqA = obtenerInfoEquipo(p.equipo_A);
-      const eqB = obtenerInfoEquipo(p.equipo_B);
-      const pron = pronosticosCache[key] || {};
-      const finalizado = p.estado === "finalizado";
-      const deshabilitado = finalizado || congelado;
-      const pts = finalizado ? calcularPuntos(pron, { goles_A: p.goles_A_real, goles_B: p.goles_B_real }) : null;
-
-      let badgePts = "";
-      if (pts === 3) badgePts = `<span class="badge-pts pts-3">⭐ ¡3 puntos!</span>`;
-      else if (pts === 1) badgePts = `<span class="badge-pts pts-1">✓ 1 punto</span>`;
-      else if (pts === 0 && finalizado && pron.goles_A !== undefined) badgePts = `<span class="badge-pts pts-0">😬 0 pts</span>`;
-
-      const vsBlock = finalizado
-        ? `<div class="resultado-real">${p.goles_A_real} - ${p.goles_B_real}</div>`
-        : `<div class="vs-texto">VS</div><div class="partido-fecha">${formatFecha(p.fecha)}</div>`;
-
-      const miPronTexto = (pron.goles_A !== undefined && pron.goles_B !== undefined && finalizado)
-        ? `<div class="mi-pron">Tu pron: ${pron.goles_A}-${pron.goles_B}</div>` : "";
-
-      const card = document.createElement("div");
-      card.className = "partido-card" + (finalizado ? " finalizado" : "");
-      card.innerHTML = `
-        <div class="partido-header">
-          ${badgePts}
-          <div class="equipo"><div>${eqA.banderaHtml}</div><div class="equipo-nombre">${eqA.nombre}</div></div>
-          <div class="vs-area">${vsBlock}${miPronTexto}</div>
-          <div class="equipo"><div>${eqB.banderaHtml}</div><div class="equipo-nombre">${eqB.nombre}</div></div>
-        </div>
-        <div class="pronostico-area">
-          <div class="pronostico-label">Tu pronóstico</div>
-          <div class="score-inputs">
-            <input class="score-input" type="number" min="0" max="30" id="gA-${key}" value="${pron.goles_A ?? ''}" placeholder="0" ${deshabilitado ? 'disabled' : ''} />
-            <span class="score-sep">-</span>
-            <input class="score-input" type="number" min="0" max="30" id="gB-${key}" value="${pron.goles_B ?? ''}" placeholder="0" ${deshabilitado ? 'disabled' : ''} />
-          </div>
-          <button class="btn-guardar" id="btn-${key}" ${deshabilitado ? 'disabled' : ''}>
-            ${finalizado ? '🔒 Cerrado' : (congelado ? '🔒 Expiró' : '💾 Guardar')}
-          </button>
-        </div>`;
-
-      // Pronósticos de todos (desde el 10/6)
-      if (congelado && Object.keys(todosPronosticosCache).length > 0) {
-        const todosDiv = document.createElement("div");
-        todosDiv.className = "todos-pronos";
-        const chips = Object.entries(todosPronosticosCache)
-          .filter(([uid, pronos]) => pronos && pronos[key])
-          .map(([uid, pronos]) => {
-            const pr = pronos[key];
-            const nombre = nombreUsuario(usuariosCache[uid]);
-            const score = `${pr.goles_A}-${pr.goles_B}`;
-            let clase = "pendiente";
-            if (finalizado) {
-              const r = calcularPuntos(pr, { goles_A: p.goles_A_real, goles_B: p.goles_B_real });
-              if (r === 3) clase = "exacto";
-              else if (r === 1) clase = "ganador";
-              else if (r === 0) clase = "fallido";
-            }
-            const esYo = uid === currentUser.uid;
-            return `<div class="prono-chip ${clase}">
-              ${esYo ? '👤 ' : ''}<span>${nombre.split(" ")[0]}</span>
-              <span class="prono-score">${score}</span>
-            </div>`;
-          }).join("");
-
-        if (chips) {
-          todosDiv.innerHTML = `<div class="todos-pronos-titulo">🕵️ Pronósticos del grupo</div><div class="pronos-grid">${chips}</div>`;
-          card.appendChild(todosDiv);
+    const renderBloque = (lista, esFinalizados) => {
+      let faseActual = null;
+      lista.forEach(([key, p]) => {
+        if (p.fase !== faseActual) {
+          faseActual = p.fase;
+          const lbl = document.createElement("div");
+          lbl.className = "fase-label" + (esFinalizados ? " fase-jugados" : "");
+          lbl.textContent = (esFinalizados ? "✅ Jugados · " : "📌 ") + p.fase;
+          container.appendChild(lbl);
         }
-      }
 
-      container.appendChild(card);
-      if (!deshabilitado) document.getElementById(`btn-${key}`).addEventListener("click", () => guardarPronostico(key));
-    });
+        const eqA = obtenerInfoEquipo(p.equipo_A);
+        const eqB = obtenerInfoEquipo(p.equipo_B);
+        const pron = pronosticosCache[key] || {};
+        const finalizado = p.estado === "finalizado";
+        const deshabilitado = finalizado || congelado;
+        const pts = finalizado ? calcularPuntos(pron, { goles_A: p.goles_A_real, goles_B: p.goles_B_real }) : null;
+
+        let badgePts = "";
+        if (pts === 3) badgePts = `<span class="badge-pts pts-3">⭐ ¡3 puntos!</span>`;
+        else if (pts === 1) badgePts = `<span class="badge-pts pts-1">✓ 1 punto</span>`;
+        else if (pts === 0 && finalizado && pron.goles_A !== undefined) badgePts = `<span class="badge-pts pts-0">😬 0 pts</span>`;
+
+        const vsBlock = finalizado
+          ? `<div class="resultado-real">${p.goles_A_real} - ${p.goles_B_real}</div>`
+          : `<div class="vs-texto">VS</div><div class="partido-fecha">${formatFecha(p.fecha)}</div>`;
+
+        const miPronTexto = (pron.goles_A !== undefined && pron.goles_B !== undefined && finalizado)
+          ? `<div class="mi-pron">Tu pron: ${pron.goles_A}-${pron.goles_B}</div>` : "";
+
+        const card = document.createElement("div");
+        card.className = "partido-card" + (finalizado ? " finalizado" : "");
+        card.innerHTML = `
+          <div class="partido-header">
+            ${badgePts}
+            <div class="equipo"><div>${eqA.banderaHtml}</div><div class="equipo-nombre">${eqA.nombre}</div></div>
+            <div class="vs-area">${vsBlock}${miPronTexto}</div>
+            <div class="equipo"><div>${eqB.banderaHtml}</div><div class="equipo-nombre">${eqB.nombre}</div></div>
+          </div>
+          <div class="pronostico-area">
+            <div class="pronostico-label">Tu pronóstico</div>
+            <div class="score-inputs">
+              <input class="score-input" type="number" min="0" max="30" id="gA-${key}" value="${pron.goles_A ?? ''}" placeholder="0" ${deshabilitado ? 'disabled' : ''} />
+              <span class="score-sep">-</span>
+              <input class="score-input" type="number" min="0" max="30" id="gB-${key}" value="${pron.goles_B ?? ''}" placeholder="0" ${deshabilitado ? 'disabled' : ''} />
+            </div>
+            <button class="btn-guardar" id="btn-${key}" ${deshabilitado ? 'disabled' : ''}>
+              ${finalizado ? '🔒 Cerrado' : (congelado ? '🔒 Expiró' : '💾 Guardar')}
+            </button>
+          </div>`;
+
+        // Pronósticos de todos (desde el 10/6)
+        if (congelado && Object.keys(todosPronosticosCache).length > 0) {
+          const todosDiv = document.createElement("div");
+          todosDiv.className = "todos-pronos";
+          const chips = Object.entries(todosPronosticosCache)
+            .filter(([uid, pronos]) => pronos && pronos[key])
+            .map(([uid, pronos]) => {
+              const pr = pronos[key];
+              const nombre = nombreUsuario(usuariosCache[uid]);
+              const score = `${pr.goles_A}-${pr.goles_B}`;
+              let clase = "pendiente";
+              if (finalizado) {
+                const r = calcularPuntos(pr, { goles_A: p.goles_A_real, goles_B: p.goles_B_real });
+                if (r === 3) clase = "exacto";
+                else if (r === 1) clase = "ganador";
+                else if (r === 0) clase = "fallido";
+              }
+              const esYo = uid === currentUser.uid;
+              return `<div class="prono-chip ${clase}">
+                ${esYo ? '👤 ' : ''}<span>${nombre.split(" ")[0]}</span>
+                <span class="prono-score">${score}</span>
+              </div>`;
+            }).join("");
+
+          if (chips) {
+            todosDiv.innerHTML = `<div class="todos-pronos-titulo">🕵️ Pronósticos del grupo</div><div class="pronos-grid">${chips}</div>`;
+            card.appendChild(todosDiv);
+          }
+        }
+
+        container.appendChild(card);
+        if (!deshabilitado) document.getElementById(`btn-${key}`).addEventListener("click", () => guardarPronostico(key));
+      });
+    };
+
+    renderBloque(pendientes, false);
+    renderBloque(finalizados, true);
   }
 
   async function guardarPronostico(key) {
@@ -681,7 +701,7 @@
 
     const nota = document.createElement("div");
     nota.style.cssText = "background:rgba(46,194,126,0.15);border:1.5px solid var(--verde);border-radius:12px;padding:10px 14px;margin-bottom:16px;font-size:0.8rem;font-weight:700;color:#0f7a4a;";
-    nota.textContent = "🟢 Los 2 primeros de cada grupo clasifican a octavos. Se actualiza con los resultados reales.";
+    nota.textContent = "🟢 Los 2 primeros de cada grupo clasifican a octavos. Se actualiza con los resultados reales. PG-PE-PP mostrado como un solo número combinado.";
     container.appendChild(nota);
 
     Object.entries(GRUPOS_MUNDIAL).forEach(([nombreGrupo, equiposGrupo]) => {
@@ -713,7 +733,8 @@
 
       const table = document.createElement("table");
       table.className = "grupo-table";
-      table.innerHTML = `<thead><tr><th>Equipo</th><th>PJ</th><th>PG</th><th>PE</th><th>PP</th><th>GF</th><th>GC</th><th>DG</th><th>Pts</th></tr></thead>`;
+      // PJ y PG-PE-PP combinados (compacto), GF/GC se ocultan en mobile vía CSS, DG y Pts siempre visibles
+      table.innerHTML = `<thead><tr><th>Equipo</th><th>PJ</th><th>PG-PE-PP</th><th class="col-gf">GF</th><th class="col-gc">GC</th><th>DG</th><th>Pts</th></tr></thead>`;
       const tbody = document.createElement("tbody");
 
       tablaGrupo.forEach(([nombreIngles, stats], i) => {
@@ -726,9 +747,10 @@
           ? info.banderaHtml.replace('class="equipo-bandera-img"', 'class="eq-flag"')
           : `<span style="font-size:1.1rem">${info.banderaHtml}</span>`;
         tr.innerHTML = `
-          <td>${flagHtml}<span>${info.nombre}</span>${clasifica ? '<span class="clasif-badge">Clasifica</span>' : ''}</td>
-          <td>${stats.pj}</td><td>${stats.pg}</td><td>${stats.pe}</td><td>${stats.pp}</td>
-          <td>${stats.gf}</td><td>${stats.gc}</td>
+          <td>${flagHtml}<span class="eq-nombre-txt">${info.nombre}</span>${clasifica ? '<span class="clasif-badge">Clasifica</span>' : ''}</td>
+          <td>${stats.pj}</td>
+          <td class="col-pgepp">${stats.pg}-${stats.pe}-${stats.pp}</td>
+          <td class="col-gf">${stats.gf}</td><td class="col-gc">${stats.gc}</td>
           <td style="font-weight:900;color:${dif>0?'#0f7a4a':dif<0?'#e84040':'inherit'}">${dif>0?'+':''}${dif}</td>
           <td style="font-weight:900;font-size:1.1rem;color:var(--violeta)">${stats.pts}</td>`;
         tbody.appendChild(tr);
@@ -744,11 +766,16 @@
   function renderAdmin() {
     const container = document.getElementById("admin-partidos-list");
     container.innerHTML = "";
-    Object.entries(partidosCache).sort((a, b) =>
-      new Date(String(a[1].fecha).replace(/ /g, "T")) - new Date(String(b[1].fecha).replace(/ /g, "T"))
-    ).forEach(([key, p]) => {
-      if (!p || !p.equipo_A || !p.equipo_B || !p.fase) return;
-      if (!p.fase.toLowerCase().includes("group") && !p.fase.toLowerCase().includes("grupo")) return;
+
+    const partidosGrupo = Object.entries(partidosCache).filter(([, p]) =>
+      p && p.equipo_A && p.equipo_B && p.fase &&
+      (p.fase.toLowerCase().includes("group") || p.fase.toLowerCase().includes("grupo"))
+    );
+    const porFecha = (a, b) => new Date(String(a[1].fecha).replace(/ /g, "T")) - new Date(String(b[1].fecha).replace(/ /g, "T"));
+    const pendientes = partidosGrupo.filter(([, p]) => p.estado !== "finalizado").sort(porFecha);
+    const finalizados = partidosGrupo.filter(([, p]) => p.estado === "finalizado").sort(porFecha);
+
+    [...pendientes, ...finalizados].forEach(([key, p]) => {
       const eqA = obtenerInfoEquipo(p.equipo_A);
       const eqB = obtenerInfoEquipo(p.equipo_B);
       const card = document.createElement("div");
